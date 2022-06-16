@@ -15,7 +15,6 @@ return new class extends Migration
     {
         Schema::create('transaction', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('appointment_id')->constrained('appointment')->onUpdate('cascade')->onDelete('cascade');
             $table->string('fee_doctor');
             $table->string('fee_specialist');
             $table->string('fee_hospital');

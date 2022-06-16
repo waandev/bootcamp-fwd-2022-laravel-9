@@ -13,9 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('doctor', function (Blueprint $table) {
-            $table->foreignId('specialist_id')->constrained('specialist')->onUpdate('cascade')->onDelete('cascade');
+        Schema::table('appointment', function (Blueprint $table) {
+            $table->foreignId('doctor_id')->constrained('doctor')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('user_id')->constrained('users')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('consultation_id')->constrained('consultation')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 
@@ -26,8 +27,10 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('doctor', function (Blueprint $table) {
-            //
+        Schema::table('appointment', function (Blueprint $table) {
+            $table->dropForeign('doctor_id');
+            $table->dropForeign('user_id');
+            $table->dropForeign('consultation_id');
         });
     }
 };
