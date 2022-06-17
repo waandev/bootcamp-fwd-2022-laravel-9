@@ -6,13 +6,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Doctor extends Model
+class Appoinment extends Model
 {
     // use HasFactory;
     use SoftDeletes;
 
     // declare table name
-    public $table = 'doctor';
+    public $table = 'appointment';
 
     // this field must type date yyyy-mm-dd hh:mm:ss
     protected $dates = [
@@ -23,11 +23,13 @@ class Doctor extends Model
 
     // declare fillable fields
     protected $fillable = [
-        'specialist_id',
+        'doctor_id',
         'user_id',
-        'name',
-        'fee',
-        'photo',
+        'consultation_id',
+        'level',
+        'date',
+        'time',
+        'status',
         'created_at',
         'updated_at',
         'deleted_at',
