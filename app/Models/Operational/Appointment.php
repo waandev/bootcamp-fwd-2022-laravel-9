@@ -2,11 +2,14 @@
 
 namespace App\Models\Operational;
 
+use App\Models\MasterData\Consultation;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use PhpParser\Node\Expr\FuncCall;
 
-class Appoinment extends Model
+class Appointment extends Model
 {
     // use HasFactory;
     use SoftDeletes;
@@ -34,4 +37,24 @@ class Appoinment extends Model
         'updated_at',
         'deleted_at',
     ];
+
+    public function doctor()
+    {
+        return $this->belongsTo(Doctor::class, 'doctor_id', 'id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function consultation()
+    {
+        return $this->belongsTo(Consultation::class, 'consultation_id', 'id');
+    }
+
+    public function transaction()
+    {
+        return $this->hasMany(Transaction::class, 'appointment_id');
+    }
 }

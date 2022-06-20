@@ -5,6 +5,8 @@ namespace App\Models;
 use App\Models\ManagementAccess\DetailUser;
 use App\Models\ManagementAccess\Role;
 use App\Models\ManagementAccess\RoleUser;
+use App\Models\Operational\Appointment;
+use App\Models\Operational\Doctor;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Jetstream\HasProfilePhoto;
 use Illuminate\Notifications\Notifiable;
@@ -87,5 +89,15 @@ class User extends Authenticatable
     public function role_user()
     {
         return $this->hasMany(RoleUser::class, 'user_id');
+    }
+
+    public function doctor()
+    {
+        return $this->hasMany(Doctor::class, 'user_id');
+    }
+
+    public function appointment()
+    {
+        return $this->hasMany(Appointment::class, 'user_id');
     }
 }

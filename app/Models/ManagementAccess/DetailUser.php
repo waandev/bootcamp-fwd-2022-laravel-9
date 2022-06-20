@@ -2,6 +2,7 @@
 
 namespace App\Models\ManagementAccess;
 
+use App\Models\MasterData\TypeUser;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -40,5 +41,11 @@ class DetailUser extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    // one to many
+    public function type_user()
+    {
+        return $this->belongsTo(TypeUser::class, 'type_user_id', 'id');
     }
 }
