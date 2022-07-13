@@ -28,6 +28,6 @@ class PermissionRoleSeeder extends Seeder
         });
 
         // for admin
-        Role::findOrFail(1)->permission()->sync($user_permissions);
+        Role::findOrFail(2)->permission()->sync($user_permissions);
     }
 }
