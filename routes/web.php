@@ -39,6 +39,45 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::resource('register_success', RegisterController::class);
 });
 
+// backsite
+Route::group(['prefix' => 'backsite', 'as' => 'backsite.', 'middleware' => ['auth:sanctum', 'verified']], function () {
+
+    // dashboard
+    Route::resource('dashboard', DashboardController::class);
+
+    // permission
+    Route::resource('permission', PermissionController::class);
+
+    // role
+    Route::resource('role', RoleController::class);
+
+    // user
+    Route::resource('user', UserController::class);
+
+    // type user
+    Route::resource('type_user', TypeUserController::class);
+
+    // specialits
+    Route::resource('specialist', SpecialistController::class);
+
+    // config payment
+    Route::resource('config_payment', ConfigPaymentController::class);
+
+    // consultation
+    Route::resource('consultation', ConsultationController::class);
+
+    // doctor
+    Route::resource('doctor', DoctorController::class);
+
+    // hospital patient
+    Route::resource('hospital_patient', HospitalPatientController::class);
+
+    // report appointment
+    Route::resource('appointment', ReportAppointmentController::class);
+
+    // report transaction
+    Route::resource('transaction', ReportTransactionController::class);
+});
 // Route::get('/', function () {
 //     return view('welcome');
 // });
