@@ -1,21 +1,17 @@
 @extends('layouts.app')
-
 {{-- set title --}}
 @section('title', 'Edit - Doctor')
-
 @section('content')
     <!-- BEGIN: Content-->
     <div class="app-content content">
         <div class="content-overlay"></div>
         <div class="content-wrapper">
-
             {{-- error --}}
             @if ($errors->any())
                 <div class="alert bg-danger alert-dismissible mb-2" role="alert">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-
                     <ul>
                         @foreach ($errors->all() as $error)
                             <li>{{ $error }}</li>
@@ -23,7 +19,6 @@
                     </ul>
                 </div>
             @endif
-
             {{-- breadcumb --}}
             <div class="content-header row">
                 <div class="content-header-left col-md-6 col-12 mb-2 breadcrumb-new">
@@ -39,7 +34,6 @@
                     </div>
                 </div>
             </div>
-
             {{-- forms --}}
             <div class="content-body">
                 <!-- Basic form layout section start -->
@@ -66,13 +60,34 @@
                                         <form class="form form-horizontal"
                                             action="{{ route('backsite.doctor.update', [$doctor->id]) }}" method="POST"
                                             enctype="multipart/form-data">
-
                                             @method('PUT')
                                             @csrf
-
                                             <div class="form-body">
 
                                                 <h4 class="form-section"><i class="fa fa-edit"></i> Form Doctor</h4>
+
+                                                <div
+                                                    class="form-group row {{ $errors->has('user_id') ? 'has-error' : '' }}">
+                                                    <label class="col-md-3 label-control">User Account <code
+                                                            style="color:red;">required</code></label>
+                                                    <div class="col-md-9 mx-auto">
+                                                        <select name="user_id" id="user_id" class="form-control select2"
+                                                            required>
+                                                            <option value="{{ '' }}" disabled selected>Choose
+                                                            </option>
+                                                            @foreach ($user as $key => $user_item)
+                                                                <option value="{{ $user_item->id }}"
+                                                                    {{ $doctor->user_id == $user_item->id ? 'selected' : '' }}>
+                                                                    {{ $user_item->name }}</option>
+                                                            @endforeach
+                                                        </select>
+
+                                                        @if ($errors->has('user_id'))
+                                                            <p style="font-style: bold; color: red;">
+                                                                {{ $errors->first('user_id') }}</p>
+                                                        @endif
+                                                    </div>
+                                                </div>
 
                                                 <div
                                                     class="form-group row {{ $errors->has('specialist_id') ? 'has-error' : '' }}">
@@ -89,14 +104,12 @@
                                                                     {{ $specialist_item->name }}</option>
                                                             @endforeach
                                                         </select>
-
                                                         @if ($errors->has('specialist_id'))
                                                             <p style="font-style: bold; color: red;">
                                                                 {{ $errors->first('specialist_id') }}</p>
                                                         @endif
                                                     </div>
                                                 </div>
-
                                                 <div class="form-group row">
                                                     <label class="col-md-3 label-control" for="name">Name <code
                                                             style="color:red;">required</code></label>
@@ -106,14 +119,12 @@
                                                             placeholder="example dentist or dermatology"
                                                             value="{{ old('name', isset($specialist) ? $doctor->name : '') }}"
                                                             autocomplete="off" required>
-
                                                         @if ($errors->has('name'))
                                                             <p style="font-style: bold; color: red;">
                                                                 {{ $errors->first('name') }}</p>
                                                         @endif
                                                     </div>
                                                 </div>
-
                                                 <div class="form-group row">
                                                     <label class="col-md-3 label-control" for="fee">Fee <code
                                                             style="color:red;">required</code></label>
@@ -124,14 +135,12 @@
                                                             autocomplete="off"
                                                             data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 0, 'digitsOptional': 0, 'prefix': 'IDR ', 'placeholder': '0'"
                                                             required>
-
                                                         @if ($errors->has('fee'))
                                                             <p style="font-style: bold; color: red;">
                                                                 {{ $errors->first('fee') }}</p>
                                                         @endif
                                                     </div>
                                                 </div>
-
                                                 <div class="form-group row">
                                                     <label class="col-md-3 label-control" for="photo">Photo <code
                                                             style="color:green;">optional</code></label>
@@ -142,22 +151,17 @@
                                                             <label class="custom-file-label" for="photo"
                                                                 aria-describedby="photo">Choose File</label>
                                                         </div>
-
                                                         <p class="text-muted"><small class="text-danger">Hanya dapat
                                                                 mengunggah 1 file</small><small> dan yang dapat digunakan
                                                                 JPEG, SVG, PNG & Maksimal ukuran file hanya 10
                                                                 MegaBytes</small></p>
-
                                                         @if ($errors->has('photo'))
                                                             <p style="font-style: bold; color: red;">
                                                                 {{ $errors->first('photo') }}</p>
                                                         @endif
-
                                                     </div>
                                                 </div>
-
                                             </div>
-
                                             <div class="form-actions text-right">
                                                 <a href="{{ route('backsite.doctor.index') }}" style="width:120px;"
                                                     class="btn bg-blue-grey text-white mr-1"
@@ -177,20 +181,15 @@
                     </div>
                 </section>
             </div>
-
         </div>
     </div>
     <!-- END: Content-->
-
 @endsection
-
-
 @push('after-script')
     {{-- inputmask --}}
     <script src="{{ asset('/assets/backsite/third-party/inputmask/dist/jquery.inputmask.js') }}"></script>
     <script src="{{ asset('/assets/backsite/third-party/inputmask/dist/inputmask.js') }}"></script>
     <script src="{{ asset('/assets/backsite/third-party/inputmask/dist/bindings/inputmask.binding.js') }}"></script>
-
     <script>
         $(function() {
             $(":input").inputmask();

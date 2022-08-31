@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\File;
 // use model here
 use App\Models\Operational\Doctor;
 use App\Models\MasterData\Specialist;
+use App\Models\User;
 
 // thirdparty package
 
@@ -52,8 +53,9 @@ class DoctorController extends Controller
 
         // for select2 = ascending a to z
         $specialist = Specialist::orderBy('name', 'asc')->get();
+        $user = User::orderBy('name', 'asc')->get();
 
-        return view('pages.backsite.operational.doctor.index', compact('doctor', 'specialist'));
+        return view('pages.backsite.operational.doctor.index', compact('doctor', 'specialist', 'user'));
     }
 
     /**
@@ -129,8 +131,9 @@ class DoctorController extends Controller
 
         // for select2 = ascending a to z
         $specialist = Specialist::orderBy('name', 'asc')->get();
+        $user = User::orderBy('name', 'asc')->get();
 
-        return view('pages.backsite.operational.doctor.edit', compact('doctor', 'specialist'));
+        return view('pages.backsite.operational.doctor.edit', compact('doctor', 'specialist', 'user'));
     }
 
     /**
