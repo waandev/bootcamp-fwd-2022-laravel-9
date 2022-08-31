@@ -216,16 +216,6 @@
                                                                 <td>{{ $doctor_item->specialist->name ?? '' }}</td>
                                                                 <td>{{ $doctor_item->name ?? '' }}</td>
                                                                 <td>{{ 'IDR ' . number_format($doctor_item->fee) ?? '' }}</td>
-
-
-
-
-
-
-
-
-
-
                                                                 <td><a data-fancybox="gallery"
                                                                         data-src="{{ request()->getSchemeAndHttpHost() . '/storage' . '/' . $doctor_item->photo }}"
                                                                         class="blue accent-4">Show</a></td>
@@ -275,6 +265,7 @@
                                                     <tfoot>
                                                         <tr>
                                                             <th>Date</th>
+                                                            <th>User Account</th>
                                                             <th>Specialist</th>
                                                             <th>Name</th>
                                                             <th>Fee</th>

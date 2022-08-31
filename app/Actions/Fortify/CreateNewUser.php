@@ -4,7 +4,7 @@ namespace App\Actions\Fortify;
 
 use App\Models\User;
 use App\Models\ManagementAccess\DetailUser;
-
+use App\Models\ManagementAccess\RoleUser;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
@@ -57,6 +57,12 @@ class CreateNewUser implements CreatesNewUsers
                 $detail_user->address = NULL;
                 $detail_user->photo = NULL;
                 $detail_user->gender = NULL;
+                $detail_user->save();
+
+                // add to role users - set role to patient
+                $detail_user = new RoleUser;
+                $detail_user->user_id = $user->id;
+                $detail_user->role_id = 5;
                 $detail_user->save();
             });
         });
