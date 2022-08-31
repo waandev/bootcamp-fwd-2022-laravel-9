@@ -3,16 +3,26 @@
 namespace App\Http\Controllers\Backsite;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 
 // use library here
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
 
 // use everything here
 use Illuminate\Support\Facades\Gate;
 use Auth;
 
-class DashboardController extends Controller
+// use model here
+use App\Models\User;
+use App\Models\Operational\Appointment;
+use App\Models\Operational\Transaction;
+use App\Models\Operational\Doctor;
+use App\Models\MasterData\Specialist;
+use App\Models\MasterData\Consultation;
+use App\Models\MasterData\ConfigPayment;
+
+class HospitalPatientController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -31,9 +41,13 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        abort_if(Gate::denies('dashboard_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('hospital_patient_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return view('pages.backsite.dashboard.index');
+        $hospital_patient = User::whereHas('detail_user', function ($query) {
+            return $query->where('type_user_id', 3);
+        })->orderBy('created_at', 'desc')->get();
+
+        return view('pages.backsite.operational.hospital-patient.index', compact('hospital_patient'));
     }
 
     /**
