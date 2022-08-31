@@ -60,10 +60,10 @@ class CreateNewUser implements CreatesNewUsers
                 $detail_user->save();
 
                 // add to role users - set role to patient
-                $detail_user = new RoleUser;
-                $detail_user->user_id = $user->id;
-                $detail_user->role_id = 5;
-                $detail_user->save();
+                $role_user = new RoleUser;
+                $role_user->user_id = $user->id;
+                $role_user->role_id = 5;
+                $role_user->save();
             });
         });
     }
