@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Requests\Consultation;
+namespace App\Http\Requests\User;
 
-use App\Models\MasterData\Consultation;
+use App\Models\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Http\FormRequest;
 use Symfony\Component\HttpFoundation\Response;
@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 // this rule only at update request
 use Illuminate\Validation\Rule;
 
-class UpdateConsultationRequest extends FormRequest
+class UpdateUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -19,7 +19,7 @@ class UpdateConsultationRequest extends FormRequest
      */
     public function authorize()
     {
-        abort_if(Gate::denies('consultation_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('user_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return true;
     }
@@ -33,8 +33,13 @@ class UpdateConsultationRequest extends FormRequest
     {
         return [
             'name' => [
-                'required', 'string', 'max:255', Rule::unique('consultation')->ignore($this->consultation),
+                'required', 'string', 'max:255',
             ],
+            'email' => [
+                'required', 'email', 'max:255', Rule::unique('users')->ignore($this->user),
+                // Rule unique only works for other record id
+            ],
+            // add validation for role this here
         ];
     }
 }

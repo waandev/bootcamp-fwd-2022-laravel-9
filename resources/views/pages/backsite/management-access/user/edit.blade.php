@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 {{-- set title --}}
-@section('title', 'Edit - Config Payment')
+@section('title', 'Edit - User')
 
 @section('content')
     <!-- BEGIN: Content-->
@@ -27,12 +27,12 @@
             {{-- breadcumb --}}
             <div class="content-header row">
                 <div class="content-header-left col-md-6 col-12 mb-2 breadcrumb-new">
-                    <h3 class="content-header-title mb-0 d-inline-block">Edit Config Payment</h3>
+                    <h3 class="content-header-title mb-0 d-inline-block">Edit User</h3>
                     <div class="row breadcrumbs-top d-inline-block">
                         <div class="breadcrumb-wrapper col-12">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item">Dashboard</li>
-                                <li class="breadcrumb-item">Config Payment</li>
+                                <li class="breadcrumb-item">User</li>
                                 <li class="breadcrumb-item active">Edit</li>
                             </ol>
                         </div>
@@ -64,48 +64,97 @@
                                                 button.</p>
                                         </div>
                                         <form class="form form-horizontal"
-                                            action="{{ route('backsite.config_payment.update', [$config_payment->id]) }}"
-                                            method="POST" enctype="multipart/form-data">
+                                            action="{{ route('backsite.user.update', [$user->id]) }}" method="POST"
+                                            enctype="multipart/form-data">
 
                                             @method('PUT')
                                             @csrf
 
                                             <div class="form-body">
 
-                                                <h4 class="form-section"><i class="fa fa-edit"></i> Form Config Payment</h4>
+                                                <h4 class="form-section"><i class="fa fa-edit"></i> Form User</h4>
 
                                                 <div class="form-group row">
-                                                    <label class="col-md-3 label-control" for="fee">Fee <code
+                                                    <label class="col-md-3 label-control" for="name">Name <code
                                                             style="color:red;">required</code></label>
                                                     <div class="col-md-9 mx-auto">
-                                                        <input type="text" id="fee" name="fee"
-                                                            class="form-control" placeholder="example fee 10000"
-                                                            value="{{ old('fee', isset($config_payment) ? $config_payment->fee : '') }}"
-                                                            autocomplete="off"
-                                                            data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 0, 'digitsOptional': 0, 'prefix': 'IDR ', 'placeholder': '0'"
-                                                            required>
+                                                        <input type="text" id="name" name="name"
+                                                            class="form-control" placeholder="example John Doe or Jane"
+                                                            value="{{ old('name', isset($user) ? $user->name : '') }}"
+                                                            autocomplete="off" required>
 
-                                                        @if ($errors->has('fee'))
+                                                        @if ($errors->has('name'))
                                                             <p style="font-style: bold; color: red;">
-                                                                {{ $errors->first('fee') }}</p>
+                                                                {{ $errors->first('name') }}</p>
                                                         @endif
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group row">
-                                                    <label class="col-md-3 label-control" for="vat">Vat <code
+                                                    <label class="col-md-3 label-control" for="email">Email <code
                                                             style="color:red;">required</code></label>
                                                     <div class="col-md-9 mx-auto">
-                                                        <input type="text" id="vat" name="vat"
-                                                            class="form-control" placeholder="example vat 10000"
-                                                            value="{{ old('vat', isset($config_payment) ? $config_payment->vat : '') }}"
-                                                            autocomplete="off"
-                                                            data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digits': 0, 'digitsOptional': 0, 'prefix': '', 'placeholder': '0'"
-                                                            required>
+                                                        <input type="text" id="email" name="email"
+                                                            class="form-control"
+                                                            placeholder="example People@mail.com or Human@mail.com"
+                                                            value="{{ old('email', isset($user) ? $user->email : '') }}"
+                                                            autocomplete="off" data-inputmask="'alias': 'email'" required>
 
-                                                        @if ($errors->has('vat'))
+                                                        @if ($errors->has('email'))
                                                             <p style="font-style: bold; color: red;">
-                                                                {{ $errors->first('vat') }}</p>
+                                                                {{ $errors->first('email') }}</p>
+                                                        @endif
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group row {{ $errors->has('role') ? 'has-error' : '' }}">
+                                                    <label class="col-md-3 label-control">Role <code
+                                                            style="color:red;">required</code></label>
+                                                    <div class="col-md-9 mx-auto">
+                                                        <label for="role">
+                                                            <span
+                                                                class="btn btn-warning btn-sm select-all">{{ 'Select all' }}</span>
+                                                            <span
+                                                                class="btn btn-warning btn-sm deselect-all">{{ 'Deselect all' }}</span>
+                                                        </label>
+
+                                                        <select name="role[]" id="role"
+                                                            class="form-control select2-full-bg" data-bgcolor="teal"
+                                                            data-bgcolor-variation="lighten-3" data-text-color="black"
+                                                            multiple="multiple" required>
+                                                            @foreach ($role as $id => $role)
+                                                                <option value="{{ $id }}"
+                                                                    {{ in_array($id, old('role', [])) || (isset($user) && $user->role->contains($id)) ? 'selected' : '' }}>
+                                                                    {{ $role }}</option>
+                                                            @endforeach
+                                                        </select>
+
+                                                        @if ($errors->has('role'))
+                                                            <p style="font-style: bold; color: red;">
+                                                                {{ $errors->first('role') }}</p>
+                                                        @endif
+                                                    </div>
+                                                </div>
+
+                                                <div
+                                                    class="form-group row {{ $errors->has('type_user_id') ? 'has-error' : '' }}">
+                                                    <label class="col-md-3 label-control">Type User <code
+                                                            style="color:red;">required</code></label>
+                                                    <div class="col-md-9 mx-auto">
+                                                        <select name="type_user_id" id="type_user_id"
+                                                            class="form-control select2" required>
+                                                            <option value="{{ '' }}" disabled selected>Choose
+                                                            </option>
+                                                            @foreach ($type_user as $key => $type_user_item)
+                                                                <option value="{{ $type_user_item->id }}"
+                                                                    {{ $type_user_item->id == $user->detail_user->type_user_id ? 'selected' : '' }}>
+                                                                    {{ $type_user_item->name }}</option>
+                                                            @endforeach
+                                                        </select>
+
+                                                        @if ($errors->has('type_user_id'))
+                                                            <p style="font-style: bold; color: red;">
+                                                                {{ $errors->first('type_user_id') }}</p>
                                                         @endif
                                                     </div>
                                                 </div>
@@ -113,7 +162,7 @@
                                             </div>
 
                                             <div class="form-actions text-right">
-                                                <a href="{{ route('backsite.config_payment.index') }}" style="width:120px;"
+                                                <a href="{{ route('backsite.user.index') }}" style="width:120px;"
                                                     class="btn bg-blue-grey text-white mr-1"
                                                     onclick="return confirm('Are you sure want to close this page? , Any changes you make will not be saved.')">
                                                     <i class="ft-x"></i> Cancel
@@ -146,6 +195,20 @@
     <script src="{{ asset('/assets/backsite/third-party/inputmask/dist/bindings/inputmask.binding.js') }}"></script>
 
     <script>
+        jQuery(document).ready(function($) {
+            $('.select-all').click(function() {
+                let $select2 = $(this).parent().siblings('.select2-full-bg')
+                $select2.find('option').prop('selected', 'selected')
+                $select2.trigger('change')
+            })
+
+            $('.deselect-all').click(function() {
+                let $select2 = $(this).parent().siblings('.select2-full-bg')
+                $select2.find('option').prop('selected', '')
+                $select2.trigger('change')
+            })
+        });
+
         $(function() {
             $(":input").inputmask();
         });

@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Requests\Consultation;
+namespace App\Http\Requests\User;
 
-use App\Models\MasterData\Consultation;
+use App\Models\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Http\FormRequest;
 use Symfony\Component\HttpFoundation\Response;
 
-class StoreConsultationRequest extends FormRequest
+class StoreUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -16,7 +16,7 @@ class StoreConsultationRequest extends FormRequest
      */
     public function authorize()
     {
-        abort_if(Gate::denies('consultation_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('user_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return true;
     }
@@ -30,8 +30,15 @@ class StoreConsultationRequest extends FormRequest
     {
         return [
             'name' => [
-                'required', 'string', 'max:255', 'unique:consultation',
+                'required', 'string', 'max:255',
             ],
+            'email' => [
+                'required', 'email', 'unique:users', 'max:255',
+            ],
+            'password' => [
+                'min:8', 'string', 'max:255', 'mixedCase',
+            ],
+            // add validation for role this here
         ];
     }
 }
